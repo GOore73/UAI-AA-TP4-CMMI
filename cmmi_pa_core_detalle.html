@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CMMI V3.0 — PAs Core: Prácticas individuales por PG Level</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f0f0; color: #222; font-size: 13px; }
+
+h1 { background: #6B1F1F; color: white; padding: 14px 22px; font-size: 15px; }
+.subtitle { background: #8B2F2F; color: #f0d0d0; padding: 6px 22px; font-size: 11px; line-height: 1.6; }
+
+.fuentes { background: #fff8e1; border-left: 4px solid #ffc107; padding: 8px 22px; font-size: 11px; color: #555; line-height: 1.7; }
+.fuentes strong { color: #6B1F1F; }
+
+/* Filtros */
+.filters { padding: 8px 22px; background: #fff; border-bottom: 1px solid #ddd; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 11px; }
+.filters span { font-weight: 600; color: #555; }
+.fbtn { border: 1px solid #ccc; background: #f9f9f9; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; }
+.fbtn:hover, .fbtn.active { background: #6B1F1F; color: white; border-color: #6B1F1F; }
+
+/* Tabla principal */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 900px; }
+thead tr { background: #3a1010; color: white; }
+thead th { padding: 7px 10px; text-align: left; font-size: 11px; font-weight: 600; border-right: 1px solid #5a2020; white-space: nowrap; }
+thead th.center { text-align: center; }
+
+td { padding: 5px 9px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+
+/* Celdas de PA — fila colapsable header */
+.pa-header td { cursor: pointer; }
+.pa-header td:first-child { font-weight: 700; font-size: 12px; }
+.pa-code { font-family: monospace; font-weight: 700; color: #fff; background: #6B1F1F; padding: 1px 6px; border-radius: 4px; font-size: 11px; margin-right: 6px; }
+.toggle-icon { float: right; font-size: 14px; color: #888; }
+
+/* Colores categorías */
+.doing-bg    { background: #E3F2FD; }
+.managing-bg { background: #E8F5E9; }
+.enabling-bg { background: #F3E5F5; }
+.improving-bg{ background: #FFF3E0; }
+
+.doing-h    { background: #1565C0; color: white; }
+.managing-h { background: #2E7D32; color: white; }
+.enabling-h { background: #6A1B9A; color: white; }
+.improving-h{ background: #BF360C; color: white; }
+
+/* Filas de prácticas individuales */
+.practice-row td { font-size: 12px; }
+.practice-row.hidden { display: none; }
+
+/* PG level badges */
+.pg-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; color: white; white-space: nowrap; }
+.pg1 { background: #9E9E9E; }
+.pg2 { background: #1976D2; }
+.pg3 { background: #388E3C; }
+.pg4 { background: #E65100; }
+.pg5 { background: #7B1FA2; }
+
+/* ML badge */
+.ml-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; color: white; }
+.ml2 { background: #2196F3; }
+.ml3 { background: #4CAF50; }
+.ml4 { background: #FF9800; }
+.ml5 { background: #9C27B0; }
+
+/* Verified / partial */
+.verified { color: #2E7D32; font-size: 10px; font-weight: 600; }
+.partial   { color: #E65100; font-size: 10px; font-weight: 600; }
+.new-v3 { background: #E91E63; color: white; padding: 1px 5px; border-radius: 8px; font-size: 9px; font-weight: 700; margin-left: 4px; }
+
+/* Cat header rows */
+tr.cat-sep td { font-weight: 700; font-size: 11px; padding: 5px 10px; letter-spacing: 0.5px; color: white; }
+
+/* Intent row */
+.intent-row td { font-size: 11px; font-style: italic; color: #555; background: #fafafa; padding: 3px 10px 6px 32px; border-bottom: 2px solid #e0e0e0; }
+</style>
+</head>
+<body>
+
+<h1>CMMI V3.0 (2023) — PAs Core: Prácticas Individuales por PG Level</h1>
+<div class="subtitle">
+  Cobertura: 12 de 17 PAs Core con prácticas verificadas individualmente · 5 PAs con solo resumen narrativo por PG (ver nota) · Hacer clic en cada PA para expandir/colapsar
+</div>
+
+<div class="fuentes">
+  <strong>Fuentes verificadas:</strong>
+  (1) KPMG / Digital India Corporation — <em>CMMI V3.0 Orientation Session</em>, febrero 2024. Documento público disponible en lbsnaa.gov.in. Cubre 12 PAs Core con prácticas individuales verificadas.
+  (2) CMMI Model Quick Reference Guide V3.0 — ISACA © 2024. Disponible en processgroup.com. Cubre resumen narrativo por PG level para todas las PAs.
+  (3) Material de cátedra UAI — Uni03_Calidad de Procesos_03_CMMI v2.pdf — Dra. Graciela D.S. Hadad, 2026. Ejemplos de EST verificados.
+  &nbsp;|&nbsp; <strong>Nota de cobertura parcial:</strong> CM, GOV, II, MPM y WE no tienen prácticas individuales verificadas en fuentes públicas — se muestra el resumen narrativo del Quick Reference Guide para esos casos, marcados con ⚠.
+</div>
+
+<div class="filters">
+  <span>Filtrar por categoría:</span>
+  <button class="fbtn active" onclick="filterCat('all',this)">Todas</button>
+  <button class="fbtn" onclick="filterCat('doing',this)">DOING</button>
+  <button class="fbtn" onclick="filterCat('managing',this)">MANAGING</button>
+  <button class="fbtn" onclick="filterCat('enabling',this)">ENABLING</button>
+  <button class="fbtn" onclick="filterCat('improving',this)">IMPROVING</button>
+  &nbsp;&nbsp;
+  <button class="fbtn" onclick="expandAll()">Expandir todo</button>
+  <button class="fbtn" onclick="collapseAll()">Colapsar todo</button>
+</div>
+
+<div class="table-wrap">
+<table id="main-table">
+<thead>
+  <tr>
+    <th style="width:220px">PA / Práctica</th>
+    <th style="width:50px" class="center">Código</th>
+    <th style="width:65px" class="center">PG Level</th>
+    <th style="width:65px" class="center">ML mín.</th>
+    <th>Descripción de la práctica</th>
+    <th style="width:80px" class="center">Cobertura</th>
+  </tr>
+</thead>
+<tbody>
+
+<!-- ═══════════════════ DOING ═══════════════════ -->
+<tr class="cat-sep doing-h" data-cat="doing"><td colspan="6">▶ DOING — Hacer el trabajo técnico</td></tr>
+
+<!-- RDM -->
+<tr class="pa-header doing-bg" onclick="toggle('rdm')" data-cat="doing">
+  <td><span class="toggle-icon" id="icon-rdm">▼</span> <span class="pa-code">RDM</span> Requirements Dev. &amp; Management</td>
+  <td class="center">RDM</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Elicitar, analizar y gestionar requisitos del cliente y del sistema.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Record requirements. — Registrar los requisitos.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Elicit stakeholder needs, expectations, constraints, and interfaces, and confirm understanding of requirements.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Transform stakeholder needs, expectations, constraints, and interfaces into prioritized customer requirements.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Obtain commitment from project participants that they can implement the requirements.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, record, and keep updated bidirectional traceability among requirements and activities or work products.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">2.5</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Ensure that plans and activities or work products remain consistent with requirements.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop and keep requirements updated for the solution and its components.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop operational concepts and scenarios.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Allocate the requirements to be implemented.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Identify, develop, and keep updated interface or connection requirements.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Ensure that requirements are necessary and sufficient.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.6</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Balance stakeholder needs and constraints.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="rdm"><td style="padding-left:28px">3.7</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Validate requirements to ensure the resulting solution will perform as intended in the target environment.</td><td></td></tr>
+
+<!-- VV -->
+<tr class="pa-header doing-bg" onclick="toggle('vv')" data-cat="doing">
+  <td><span class="toggle-icon" id="icon-vv">▼</span> <span class="pa-code">VV</span> Verification &amp; Validation</td>
+  <td class="center">VV</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Verificar que los productos cumplen requisitos; validar que satisfacen necesidades del usuario.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Perform verification to ensure the requirements are implemented and record and communicate results.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">1.2</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Perform validation to ensure the solution will function as intended in its target environment and record and communicate results.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Select components and methods for verification and validation.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and use the environment needed to support verification and validation.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and follow procedures for verification and validation.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and use criteria for verification and validation.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="vv"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Analyze and communicate verification and validation results.</td><td></td></tr>
+
+<!-- PQA -->
+<tr class="pa-header doing-bg" onclick="toggle('pqa')" data-cat="doing">
+  <td><span class="toggle-icon" id="icon-pqa">▼</span> <span class="pa-code">PQA</span> Process Quality Assurance</td>
+  <td class="center">PQA</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Proveer visibilidad objetiva sobre procesos y productos de trabajo.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Identify and address process and work product issues.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and follow a quality assurance approach and plan based on historical quality data.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Objectively evaluate selected performed processes and work products against the recorded process and applicable standards.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Communicate quality and non-compliance issues and ensure their resolution.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Record and use results of quality assurance activities.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pqa"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Identify and record opportunities for improvement during quality assurance activities.</td><td></td></tr>
+
+<!-- PR -->
+<tr class="pa-header doing-bg" onclick="toggle('pr')" data-cat="doing">
+  <td><span class="toggle-icon" id="icon-pr">▼</span> <span class="pa-code">PR</span> Peer Reviews</td>
+  <td class="center">PR</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Detectar defectos temprano mediante revisiones estructuradas entre pares.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Perform reviews of work products and record issues.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop and keep updated procedures and supporting materials used to prepare for and perform peer reviews.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Select work products to be peer reviewed.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Prepare and perform peer reviews on selected work products using established procedures.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Resolve issues identified in peer reviews.</td><td></td></tr>
+<tr class="practice-row doing-bg" data-group="pr"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Analyze peer review data to identify and address common defect causes and process improvement opportunities.</td><td></td></tr>
+
+<!-- ═══════════════════ MANAGING ═══════════════════ -->
+<tr class="cat-sep managing-h" data-cat="managing"><td colspan="6">▶ MANAGING — Gestionar el trabajo</td></tr>
+
+<!-- EST -->
+<tr class="pa-header managing-bg" onclick="toggle('est')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-est">▼</span> <span class="pa-code">EST</span> Estimating</td>
+  <td class="center">EST</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Estimar tamaño, esfuerzo, duración y costo del trabajo.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Develop high-level estimates to perform the work. — Desarrollar estimaciones de alto nivel para realizar el trabajo.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and use the scope of what is being estimated.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop and keep updated estimates for the size of the solution.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Based on size estimates, develop and record effort, duration, and cost estimates and their rationale for the solution.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop and keep updated a recorded estimation method.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="est"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Use the organizational measurement repository and process assets for estimating work.</td><td></td></tr>
+
+<!-- PLAN -->
+<tr class="pa-header managing-bg" onclick="toggle('plan')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-plan">▼</span> <span class="pa-code">PLAN</span> Planning</td>
+  <td class="center">PLAN</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Establecer y mantener planes que definan cómo se realizará el trabajo.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Develop a list of tasks.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">1.2</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Assign people to tasks.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop and keep updated the approach for accomplishing the work.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Plan for the knowledge and skills needed to perform the work.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Based on recorded estimates, develop, and keep the budget and schedule updated.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Plan the involvement of identified stakeholders.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.5</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Plan transition to operations and support.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.6</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Ensure plans are feasible by reconciling estimates against capacity and availability of resources.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.7</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop the project plan, ensure consistency among its elements, and keep it updated.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">2.8</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Review plans and obtain commitments from affected stakeholders.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Use the organization's set of standard processes and tailoring guidelines to develop, keep updated, and follow the project process.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop a plan and keep it updated using the project process, the organization's process assets, and the measurement repository.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Identify and negotiate critical dependencies.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="plan"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Plan for the project environment and keep it updated based on the organization's standards.</td><td></td></tr>
+
+<!-- MC -->
+<tr class="pa-header managing-bg" onclick="toggle('mc')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-mc">▼</span> <span class="pa-code">MC</span> Monitor &amp; Control</td>
+  <td class="center">MC</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Monitorear progreso; tomar acciones correctivas ante desvíos significativos.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Record task completions.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">1.2</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Identify and resolve issues.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Track actual results against estimates for size, effort, schedule, resources, knowledge and skills, and budget.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Track the involvement of identified stakeholders and commitments.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Monitor the transition to operations and support.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Take corrective actions when actual results differ significantly from planned results and manage to closure.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Manage the project using the project plan and the project process.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Manage critical dependencies and activities.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Monitor the work environment to identify issues.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="mc"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Manage and resolve issues with affected stakeholders.</td><td></td></tr>
+
+<!-- RSK -->
+<tr class="pa-header managing-bg" onclick="toggle('rsk')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-rsk">▼</span> <span class="pa-code">RSK</span> Risk &amp; Opportunity Management</td>
+  <td class="center">RSK</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Identificar, analizar, gestionar riesgos y aprovechar oportunidades.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Identify and record risks or opportunities and keep them updated.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Analyze identified risks or opportunities.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Monitor identified risks or opportunities and communicate status to affected stakeholders.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Identify and use risk or opportunity categories.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Define and use parameters for risk or opportunity analysis and handling.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop and keep updated a risk or opportunity management strategy.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop and keep updated risk or opportunity management plans.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="rsk"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Manage risks or opportunities by implementing planned risk or opportunity management activities.</td><td></td></tr>
+
+<!-- DAR -->
+<tr class="pa-header managing-bg" onclick="toggle('dar')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-dar">▼</span> <span class="pa-code">DAR</span> Decision Analysis &amp; Resolution</td>
+  <td class="center">DAR</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Tomar y registrar decisiones usando proceso formal de evaluación de alternativas.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Define and record the alternatives.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">1.2</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Make and record the decision.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and use rules to determine when to follow a recorded process for criteria-based decisions.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop criteria for evaluating alternatives.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Identify alternative solutions.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">2.4</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Select evaluation methods.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">2.5</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Evaluate and select solutions using criteria and methods.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="dar"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and use a description of role-based decision authority.</td><td></td></tr>
+
+<!-- OT -->
+<tr class="pa-header managing-bg" onclick="toggle('ot')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-ot">▼</span> <span class="pa-code">OT</span> Organizational Training</td>
+  <td class="center">OT</td><td class="center"><span class="pg2">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Desarrollar habilidades y conocimientos del personal para sus roles.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Train people.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Identify training needs.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Train personnel and keep records.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop and keep updated the organization's strategic and short-term training needs.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Coordinate training needs and delivery between the projects and the organization.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and follow organizational strategic and short-term training plans.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and use a training capability to address organizational training needs.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Assess and report the effectiveness of the organization's training program.</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="ot"><td style="padding-left:28px">3.6</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Record, keep updated, and use the set of organizational training records.</td><td></td></tr>
+
+<!-- CM -->
+<tr class="pa-header managing-bg" onclick="toggle('cm')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-cm">▼</span> <span class="pa-code">CM</span> Configuration Management</td>
+  <td class="center">CM</td><td class="center"><span class="pg2">PG 1–2</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Gestionar integridad de productos de trabajo con control de versiones, cambios y auditorías.</td>
+  <td class="center"><span class="partial">⚠ Resumen</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="cm"><td style="padding-left:28px">PG 1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Perform basic version control. (1 práctica — detalle en modelo completo ISACA)</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="cm"><td style="padding-left:28px">PG 2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Manage and control identified items under configuration control; use a configuration management system to develop and release baselines, manage changes, and describe versions; perform configuration audits. (6 prácticas — detalle en modelo completo ISACA)</td><td></td></tr>
+
+<!-- GOV -->
+<tr class="pa-header enabling-bg" onclick="toggle('gov')" data-cat="enabling">
+  <td><span class="toggle-icon" id="icon-gov">▼</span> <span class="pa-code">GOV</span> Governance</td>
+  <td class="center">GOV</td><td class="center"><span class="pg2">PG 1–4</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Guiar a la alta dirección en su rol de patrocinio y supervisión de mejora de procesos.</td>
+  <td class="center"><span class="partial">⚠ Resumen</span></td>
+</tr>
+<tr class="practice-row enabling-bg" data-group="gov"><td style="padding-left:28px">PG 1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Senior management identifies what is important and defines an approach to accomplish the objectives. (1 práctica)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="gov"><td style="padding-left:28px">PG 2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Senior management defines/communicates performance objectives; provides resources/training; collects info for governance; holds people accountable. (4 prácticas)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="gov"><td style="padding-left:28px">PG 3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Senior management directs collection/analysis of measures to support business objectives and confirms competency/process alignment. (3 prácticas)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="gov"><td style="padding-left:28px">PG 4</td><td class="center"><span class="pg-badge pg4">PG 4</span></td><td></td><td></td><td>Senior management makes decisions driven by statistical/quantitative analysis for QPPOs. (1 práctica)</td><td></td></tr>
+
+<!-- ═══════════════════ ENABLING ═══════════════════ -->
+<tr class="cat-sep enabling-h" data-cat="enabling"><td colspan="6">▶ ENABLING — Habilitar la operación</td></tr>
+
+<!-- CAR -->
+<tr class="pa-header enabling-bg" onclick="toggle('car')" data-cat="enabling">
+  <td><span class="toggle-icon" id="icon-car">▼</span> <span class="pa-code">CAR</span> Causal Analysis &amp; Resolution</td>
+  <td class="center">CAR</td><td class="center"><span class="pg5">PG 1–5</span></td>
+  <td class="center"><span class="ml-badge ml5">ML 5</span></td>
+  <td>Identificar causas raíz de outcomes; actuar para prevenir recurrencia o asegurar resultados positivos.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Identify and address causes of selected outcomes.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Select outcomes for analysis.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Analyze and address causes of outcomes.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Determine root causes of selected outcomes by following an organizational process.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Propose actions to address identified causes.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Implement selected action proposals.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Record causal analysis and resolution data.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Submit improvement proposals for changes proven to be effective.</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">4.1–4.2</td><td class="center"><span class="pg-badge pg4">PG 4</span></td><td></td><td></td><td>Perform root cause analysis and evaluate the effects of actions using statistical techniques. (2 prácticas — detalle en modelo completo)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="car"><td style="padding-left:28px">5.1</td><td class="center"><span class="pg-badge pg5">PG 5</span></td><td></td><td></td><td>Use statistical techniques to evaluate solutions and processes for optimizing performance across the organization.</td><td></td></tr>
+
+<!-- II -->
+<tr class="pa-header enabling-bg" onclick="toggle('ii')" data-cat="enabling">
+  <td><span class="toggle-icon" id="icon-ii">▼</span> <span class="pa-code">II</span> Implementation Infrastructure</td>
+  <td class="center">II</td><td class="center"><span class="pg4">PG 1–4</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Asegurar que los procesos importantes se sigan, usen y mejoren de forma habitual.</td>
+  <td class="center"><span class="partial">⚠ Resumen</span></td>
+</tr>
+<tr class="practice-row enabling-bg" data-group="ii"><td style="padding-left:28px">PG 1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Performing processes to address the Level 1 practices in scope. (1 práctica)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="ii"><td style="padding-left:28px">PG 2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Allocating adequate resources, funding, and training to develop and implement processes; regularly updated and verified. (2 prácticas)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="ii"><td style="padding-left:28px">PG 3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Utilizing organizational processes and assets; assessing adherence and effectiveness; contributing back to the organization. (3 prácticas)</td><td></td></tr>
+<tr class="practice-row enabling-bg" data-group="ii"><td style="padding-left:28px">PG 4</td><td class="center"><span class="pg-badge pg4">PG 4</span></td><td></td><td></td><td>Organizational capability to understand and apply statistical and quantitative techniques. (1 práctica)</td><td></td></tr>
+
+<!-- ═══════════════════ IMPROVING ═══════════════════ -->
+<tr class="cat-sep improving-h" data-cat="improving"><td colspan="6">▶ IMPROVING — Mejorar continuamente</td></tr>
+
+<!-- PAD -->
+<tr class="pa-header improving-bg" onclick="toggle('pad')" data-cat="improving">
+  <td><span class="toggle-icon" id="icon-pad">▼</span> <span class="pa-code">PAD</span> Process Asset Development</td>
+  <td class="center">PAD</td><td class="center"><span class="pg3">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Establecer y mantener activos de proceso organizacionales.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Develop process assets to perform the work.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Determine what process assets will be needed to perform the work.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, buy, or reuse process assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">2.3</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Make processes and assets available.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and follow a strategy for building and updating process assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, record, and keep updated a process architecture that describes the structure of the organization's processes and assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and make the organization's processes and assets available for use in a process asset library.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and use tailoring criteria and guidelines for the set of standard processes and assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and make work environment standards available for use.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pad"><td style="padding-left:28px">3.6</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and make organizational measurement and analysis standards available for use.</td><td></td></tr>
+
+<!-- PCM -->
+<tr class="pa-header improving-bg" onclick="toggle('pcm')" data-cat="improving">
+  <td><span class="toggle-icon" id="icon-pcm">▼</span> <span class="pa-code">PCM</span> Process Management</td>
+  <td class="center">PCM</td><td class="center"><span class="pg3">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Gestionar e implementar la mejora continua de procesos para cumplir objetivos de negocio.</td>
+  <td class="center"><span class="verified">✔ Verificado</span></td>
+</tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">1.1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Develop a support structure to provide process guidance, identify and fix process problems, and continuously improve processes.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">1.2</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Appraise the current process implementation and identify strengths and weaknesses.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">1.3</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Address improvement opportunities or process issues.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">2.1</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Identify improvements to the processes and process assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">2.2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Develop, keep updated, and follow plans for implementing selected process improvements.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.1</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Develop, keep updated, and use process improvement objectives traceable to the business objectives.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.2</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Identify processes that are the largest contributors to meeting business objectives.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Explore and evaluate potential new processes, techniques, methods, and tools to identify improvement opportunities.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.4</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Provide support for implementing, deploying, and sustaining process improvements.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.5</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Deploy organizational standard processes and process assets.</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="pcm"><td style="padding-left:28px">3.6</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Evaluate and report the effectiveness of deployed improvements in achieving process improvement objectives.</td><td></td></tr>
+
+<!-- MPM -->
+<tr class="pa-header improving-bg" onclick="toggle('mpm')" data-cat="improving">
+  <td><span class="toggle-icon" id="icon-mpm">▼</span> <span class="pa-code">MPM</span> Managing Performance &amp; Measurement</td>
+  <td class="center">MPM</td><td class="center"><span class="pg5">PG 1–5</span></td>
+  <td class="center"><span class="ml-badge ml2">ML 2</span></td>
+  <td>Gestionar rendimiento usando medición y análisis para alcanzar objetivos de negocio.</td>
+  <td class="center"><span class="partial">⚠ Resumen</span></td>
+</tr>
+<tr class="practice-row improving-bg" data-group="mpm"><td style="padding-left:28px">PG 1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Collect measures and identify and address performance issues. (2 prácticas)</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="mpm"><td style="padding-left:28px">PG 2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Set/update measurement and performance objectives; develop operational definitions; collect, analyze, store data; address issues. (6 prácticas)</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="mpm"><td style="padding-left:28px">PG 3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Organizational approach to develop/maintain measurement objectives aligned to business goals; use/update measurement repository; analyze performance; communicate results. (6 prácticas)</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="mpm"><td style="padding-left:28px">PG 4</td><td class="center"><span class="pg-badge pg4">PG 4</span></td><td></td><td></td><td>Apply statistical/quantitative methods for QPPOs; establish performance baselines and models; predict achievement of goals. (5 prácticas)</td><td></td></tr>
+<tr class="practice-row improving-bg" data-group="mpm"><td style="padding-left:28px">PG 5</td><td class="center"><span class="pg-badge pg5">PG 5</span></td><td></td><td></td><td>Use statistical/quantitative techniques to align business objectives with strategy; optimize performance; select improvement proposals based on impact analysis. (3 prácticas)</td><td></td></tr>
+
+<!-- WE -->
+<tr class="pa-header managing-bg" onclick="toggle('we')" data-cat="managing">
+  <td><span class="toggle-icon" id="icon-we">▼</span> <span class="pa-code">WE</span> Workforce Empowerment <span class="new-v3">NUEVO V3</span></td>
+  <td class="center">WE</td><td class="center"><span class="pg3">PG 1–3</span></td>
+  <td class="center"><span class="ml-badge ml3">ML 3</span></td>
+  <td>Crear entorno donde el personal esté motivado y empoderado para contribuir al éxito.</td>
+  <td class="center"><span class="partial">⚠ Resumen</span></td>
+</tr>
+<tr class="practice-row managing-bg" data-group="we"><td style="padding-left:28px">PG 1</td><td class="center"><span class="pg-badge pg1">PG 1</span></td><td></td><td></td><td>Identify and assign commitments to the relevant workgroups. (1 práctica)</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="we"><td style="padding-left:28px">PG 2</td><td class="center"><span class="pg-badge pg2">PG 2</span></td><td></td><td></td><td>Record and assign work assignments based on qualifications/skills; manage transitions; develop communication and coordination mechanisms within and between workgroups. (2 prácticas)</td><td></td></tr>
+<tr class="practice-row managing-bg" data-group="we"><td style="padding-left:28px">PG 3</td><td class="center"><span class="pg-badge pg3">PG 3</span></td><td></td><td></td><td>Create and maintain workforce competencies; develop/update organizational structure and approach to empower workgroups; establish and regularly update organizational compensation strategies. (4 prácticas)</td><td></td></tr>
+
+</tbody>
+</table>
+</div>
+
+<script>
+function toggle(id) {
+  const rows = document.querySelectorAll('[data-group="' + id + '"]');
+  const icon = document.getElementById('icon-' + id);
+  const isHidden = rows[0] && rows[0].classList.contains('hidden');
+  rows.forEach(r => r.classList.toggle('hidden', !isHidden));
+  if (icon) icon.textContent = isHidden ? '▼' : '▶';
+}
+function expandAll() {
+  document.querySelectorAll('.practice-row').forEach(r => {
+    r.classList.remove('hidden');
+    r.style.display = '';
+  });
+  document.querySelectorAll('.toggle-icon').forEach(i => i.textContent = '▼');
+}
+function collapseAll() {
+  document.querySelectorAll('.practice-row').forEach(r => {
+    r.classList.add('hidden');
+    r.style.display = 'none';
+  });
+  document.querySelectorAll('.toggle-icon').forEach(i => i.textContent = '▶');
+}
+function filterCat(cat, btn) {
+  // update button styles
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // show/hide category separator rows and PA header rows
+  document.querySelectorAll('tr[data-cat]').forEach(r => {
+    const match = cat === 'all' || r.dataset.cat === cat;
+    r.style.display = match ? '' : 'none';
+  });
+
+  // for each PA header, show/hide its practice rows based on PA visibility
+  document.querySelectorAll('.pa-header').forEach(ph => {
+    const iconEl = ph.querySelector('[id^="icon-"]');
+    if (!iconEl) return;
+    const grp = iconEl.id.replace('icon-', '');
+    const phVisible = ph.style.display !== 'none';
+    const isExpanded = iconEl.textContent === '▼';
+    document.querySelectorAll('[data-group="' + grp + '"]').forEach(r => {
+      if (!phVisible) {
+        r.style.display = 'none';
+      } else {
+        r.style.display = isExpanded ? '' : 'none';
+      }
+    });
+  });
+}
+// Start collapsed
+collapseAll();
+</script>
+</body>
+</html>

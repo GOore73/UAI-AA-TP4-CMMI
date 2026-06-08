@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CMMI V3.0 — Estructura Jerárquica Completa</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #222; font-size: 13px; }
+  h1 { background: #6B1F1F; color: white; padding: 16px 24px; font-size: 16px; letter-spacing: 0.5px; }
+  .subtitle { background: #8B2F2F; color: #f0d0d0; padding: 6px 24px; font-size: 11px; }
+
+  /* Leyenda niveles de madurez */
+  .legend { display: flex; gap: 8px; padding: 10px 24px; background: #fff; border-bottom: 1px solid #ddd; flex-wrap: wrap; align-items: center; }
+  .legend span { font-size: 11px; font-weight: 600; color: #555; margin-right: 4px; }
+  .ml-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; color: white; }
+  .ml2 { background: #2196F3; }
+  .ml3 { background: #4CAF50; }
+  .ml4 { background: #FF9800; }
+  .ml5 { background: #9C27B0; }
+  .ml-na { background: #9E9E9E; }
+  .new-badge { background: #E91E63; color: white; padding: 2px 6px; border-radius: 10px; font-size: 9px; font-weight: 700; margin-left: 4px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: #3a1010; color: white; }
+  thead th { padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; border-right: 1px solid #5a2020; }
+
+  /* Colores por categoría */
+  .cat-doing   { background: #1565C0; color: white; }
+  .cat-managing{ background: #2E7D32; color: white; }
+  .cat-enabling{ background: #6A1B9A; color: white; }
+  .cat-improving{background: #BF360C; color: white; }
+
+  .cat-doing-row   { background: #E3F2FD; }
+  .cat-managing-row{ background: #E8F5E9; }
+  .cat-enabling-row{ background: #F3E5F5; }
+  .cat-improving-row{background: #FBE9E7; }
+
+  td { padding: 6px 10px; border-bottom: 1px solid #ddd; vertical-align: middle; }
+  td.cat-cell { font-weight: 700; font-size: 12px; text-align: center; padding: 4px; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); min-width: 28px; }
+  td.ca-cell  { font-weight: 600; font-size: 11px; }
+  td.pa-cell  { font-size: 12px; }
+  td.pa-abbr  { font-family: monospace; font-weight: 700; font-size: 12px; color: #6B1F1F; }
+  td.type-cell{ font-size: 10px; text-align: center; }
+  td.ml-cell  { text-align: center; }
+  td.desc-cell{ font-size: 11px; color: #444; max-width: 280px; }
+
+  .core-badge   { background: #1565C0; color: white; padding: 1px 6px; border-radius: 8px; font-size: 9px; font-weight: 700; }
+  .domain-badge { background: #E65100; color: white; padding: 1px 6px; border-radius: 8px; font-size: 9px; font-weight: 700; }
+
+  tr:hover td { filter: brightness(0.95); }
+
+  .note { padding: 10px 24px; background: #fff8e1; border-top: 2px solid #ffc107; font-size: 11px; color: #555; line-height: 1.6; }
+  .note strong { color: #6B1F1F; }
+
+  /* Nivel visual de jerarquía */
+  .hier-diagram { padding: 12px 24px; background: #fff; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 6px; font-size: 11px; flex-wrap: wrap; }
+  .hier-box { border: 2px solid #6B1F1F; border-radius: 4px; padding: 4px 10px; font-weight: 700; color: #6B1F1F; }
+  .hier-arrow { color: #6B1F1F; font-size: 16px; }
+  .hier-count { color: #888; font-size: 10px; }
+</style>
+</head>
+<body>
+
+<h1>CMMI V3.0 (2023) — Estructura Jerárquica Completa</h1>
+<div class="subtitle">Categorías → Áreas de Capacidad → Áreas de Práctica → Grupos de Práctica (Niveles de Madurez)</div>
+
+<div class="hier-diagram">
+  <div class="hier-box">CCA</div><span class="hier-arrow">⊃</span>
+  <div class="hier-box">CA</div><span class="hier-arrow">⊃</span>
+  <div class="hier-box">PA</div><span class="hier-arrow">⊃</span>
+  <div class="hier-box">PG (Niveles 1–5)</div><span class="hier-arrow">⊃</span>
+  <div class="hier-box">Prácticas individuales</div>
+  <span class="hier-count">&nbsp;|&nbsp; 4 Categorías · ~12 Áreas de Capacidad · 31 Áreas de Práctica</span>
+</div>
+
+<div class="legend">
+  <span>Nivel de madurez mínimo en que aparece la PA:</span>
+  <span class="ml-badge ml2">ML 2 — Gestionado</span>
+  <span class="ml-badge ml3">ML 3 — Definido</span>
+  <span class="ml-badge ml4">ML 4 — Gest. Cuant.</span>
+  <span class="ml-badge ml5">ML 5 — Optimizando</span>
+  <span class="ml-badge ml-na">Solo capacidad</span>
+  &nbsp;&nbsp;
+  <span class="core-badge">CORE</span> = aplica a todos los dominios &nbsp;
+  <span class="domain-badge">DOMINIO</span> = específica de un contexto
+  &nbsp;&nbsp;
+  <span class="new-badge">NUEVO V3</span> = incorporado en V3.0 (2023)
+</div>
+
+<table>
+<thead>
+  <tr>
+    <th style="width:28px">Cat.</th>
+    <th style="width:160px">Área de Capacidad (CA)</th>
+    <th style="width:190px">Área de Práctica (PA)</th>
+    <th style="width:40px">Sigla</th>
+    <th style="width:60px">Tipo</th>
+    <th style="width:80px">ML mínimo</th>
+    <th>Descripción / propósito</th>
+  </tr>
+</thead>
+<tbody>
+
+<!-- ====== DOING ====== -->
+<tr>
+  <td class="cat-cell cat-doing" rowspan="12">DOING</td>
+  <td class="ca-cell cat-doing-row" rowspan="4">Engineering &amp; Developing Products</td>
+  <td class="pa-cell cat-doing-row">Requirements Development &amp; Management</td>
+  <td class="pa-abbr cat-doing-row">RDM</td>
+  <td class="type-cell cat-doing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-doing-row">Elicitar, analizar, especificar y gestionar requisitos del cliente y del sistema a lo largo del ciclo de vida.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Technical Solution</td>
+  <td class="pa-abbr cat-doing-row">TS</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Diseñar, desarrollar e implementar soluciones que satisfagan los requisitos.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Product Integration</td>
+  <td class="pa-abbr cat-doing-row">PI</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Ensamblar componentes del producto y verificar que funcionen correctamente como un todo integrado.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Verification &amp; Validation</td>
+  <td class="pa-abbr cat-doing-row">VV</td>
+  <td class="type-cell cat-doing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Verificar que los productos cumplen sus requisitos; validar que satisfacen las necesidades del usuario en el entorno operativo.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-doing-row" rowspan="3">Delivering &amp; Managing Services</td>
+  <td class="pa-cell cat-doing-row">Service Delivery Management</td>
+  <td class="pa-abbr cat-doing-row">SDM</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-doing-row">Gestionar la entrega de servicios conforme a los acuerdos establecidos con los clientes.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Incident Resolution &amp; Prevention</td>
+  <td class="pa-abbr cat-doing-row">IRP</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-doing-row">Identificar, controlar, resolver y prevenir incidentes que afectan la prestación del servicio.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Strategic Service Management</td>
+  <td class="pa-abbr cat-doing-row">STSM</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Establecer y mantener los servicios estándar que la organización ofrece, alineados con las necesidades del mercado.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-doing-row" rowspan="2">Ensuring Quality</td>
+  <td class="pa-cell cat-doing-row">Process Quality Assurance</td>
+  <td class="pa-abbr cat-doing-row">PQA</td>
+  <td class="type-cell cat-doing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-doing-row">Proveer visibilidad objetiva sobre los procesos y productos de trabajo, verificando la adherencia a los planes y estándares.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Peer Reviews</td>
+  <td class="pa-abbr cat-doing-row">PR</td>
+  <td class="type-cell cat-doing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Detectar defectos temprano mediante revisiones estructuradas entre pares sobre productos de trabajo.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-doing-row" rowspan="3">Selecting &amp; Managing Suppliers</td>
+  <td class="pa-cell cat-doing-row">Supplier Agreement Management</td>
+  <td class="pa-abbr cat-doing-row">SAM</td>
+  <td class="type-cell cat-doing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-doing-row">Gestionar la adquisición de productos y servicios de proveedores conforme a acuerdos formales. <em>(Absorbe SSS de V2)</em></td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Continuity</td>
+  <td class="pa-abbr cat-doing-row">CONT</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Establecer y mantener planes para asegurar la continuidad del servicio ante interrupciones.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-doing-row">Enabling Virtual Work</td>
+  <td class="pa-abbr cat-doing-row">EVW</td>
+  <td class="type-cell cat-doing-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-doing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-doing-row">Gestionar el trabajo virtual y distribuido. <em>(Renombrado de EVSD en V3.0)</em></td>
+</tr>
+
+<!-- ====== MANAGING ====== -->
+<tr>
+  <td class="cat-cell cat-managing" rowspan="8">MANAGING</td>
+  <td class="ca-cell cat-managing-row" rowspan="4">Planning &amp; Managing Work (PMW)</td>
+  <td class="pa-cell cat-managing-row">Estimating</td>
+  <td class="pa-abbr cat-managing-row">EST</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-managing-row">Desarrollar y mantener estimaciones de tamaño, esfuerzo, duración y costo del trabajo a realizar.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-managing-row">Planning</td>
+  <td class="pa-abbr cat-managing-row">PLAN</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-managing-row">Establecer y mantener planes que definen cómo se realizará el trabajo del proyecto.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-managing-row">Monitor &amp; Control</td>
+  <td class="pa-abbr cat-managing-row">MC</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-managing-row">Monitorear el progreso y rendimiento del proyecto; tomar acciones correctivas cuando hay desvíos.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-managing-row">Risk &amp; Opportunity Management</td>
+  <td class="pa-abbr cat-managing-row">RSK</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-managing-row">Identificar, analizar y mitigar riesgos; identificar y aprovechar oportunidades a lo largo del proyecto.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-managing-row" rowspan="2">Managing Business Resilience (MBR)</td>
+  <td class="pa-cell cat-managing-row">Configuration Management</td>
+  <td class="pa-abbr cat-managing-row">CM</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-managing-row">Establecer y mantener la integridad de los productos de trabajo identificando, controlando y auditando los ítems de configuración.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-managing-row">Decision Analysis &amp; Resolution</td>
+  <td class="pa-abbr cat-managing-row">DAR</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-managing-row">Analizar decisiones posibles mediante un proceso formal de evaluación de alternativas contra criterios establecidos.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-managing-row" rowspan="2">Managing the Workforce (MWF)</td>
+  <td class="pa-cell cat-managing-row">Organizational Training</td>
+  <td class="pa-abbr cat-managing-row">OT</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-managing-row">Desarrollar habilidades y conocimientos del personal para que puedan desempeñar eficazmente sus roles.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-managing-row">Workforce Empowerment <span class="new-badge">NUEVO V3</span></td>
+  <td class="pa-abbr cat-managing-row">WE</td>
+  <td class="type-cell cat-managing-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-managing-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-managing-row">Crear un entorno donde el personal esté motivado, empoderado y comprometido para contribuir al éxito organizacional.</td>
+</tr>
+
+<!-- ====== ENABLING ====== -->
+<tr>
+  <td class="cat-cell cat-enabling" rowspan="7">ENABLING</td>
+  <td class="ca-cell cat-enabling-row" rowspan="2">Managing Data <span class="new-badge">NUEVO V3</span></td>
+  <td class="pa-cell cat-enabling-row">Data Management <span class="new-badge">NUEVO V3</span></td>
+  <td class="pa-abbr cat-enabling-row">DM</td>
+  <td class="type-cell cat-enabling-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-enabling-row">Gestionar los datos como activo organizacional: almacenamiento, acceso, ciclo de vida, privacidad y gobierno de datos.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-enabling-row">Data Quality <span class="new-badge">NUEVO V3</span></td>
+  <td class="pa-abbr cat-enabling-row">DQ</td>
+  <td class="type-cell cat-enabling-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-enabling-row">Asegurar que los datos usados en los procesos sean precisos, completos, consistentes y adecuados para su propósito.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-enabling-row" rowspan="2">Managing Security &amp; Safety</td>
+  <td class="pa-cell cat-enabling-row">Security Management</td>
+  <td class="pa-abbr cat-enabling-row">SM</td>
+  <td class="type-cell cat-enabling-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-enabling-row">Identificar y gestionar riesgos de seguridad de la información; implementar controles para proteger los activos de información.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-enabling-row">Safety</td>
+  <td class="pa-abbr cat-enabling-row">SAF</td>
+  <td class="type-cell cat-enabling-row"><span class="domain-badge">DOMINIO</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-enabling-row">Identificar y gestionar los riesgos de seguridad física (safety) que pueden causar daño a personas o bienes.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-enabling-row" rowspan="3">Supporting Implementation (SI)</td>
+  <td class="pa-cell cat-enabling-row">Governance</td>
+  <td class="pa-abbr cat-enabling-row">GOV</td>
+  <td class="type-cell cat-enabling-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-enabling-row">Establecer y mantener el liderazgo ejecutivo y la supervisión necesaria para la adopción sostenida de CMMI.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-enabling-row">Implementation Infrastructure</td>
+  <td class="pa-abbr cat-enabling-row">II</td>
+  <td class="type-cell cat-enabling-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-enabling-row">Proveer la infraestructura (herramientas, recursos, soporte) para implementar y sostener las prácticas del modelo.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-enabling-row">Causal Analysis &amp; Resolution</td>
+  <td class="pa-abbr cat-enabling-row">CAR</td>
+  <td class="type-cell cat-enabling-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-enabling-row"><span class="ml-badge ml5">ML 5</span></td>
+  <td class="desc-cell cat-enabling-row">Identificar las causas raíz de los defectos y problemas; implementar acciones para prevenirlos en el futuro.</td>
+</tr>
+
+<!-- ====== IMPROVING ====== -->
+<tr>
+  <td class="cat-cell cat-improving" rowspan="4">IMPROVING</td>
+  <td class="ca-cell cat-improving-row" rowspan="2">Improving Performance (IP)</td>
+  <td class="pa-cell cat-improving-row">Performance &amp; Measurement Management</td>
+  <td class="pa-abbr cat-improving-row">MPM</td>
+  <td class="type-cell cat-improving-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-improving-row"><span class="ml-badge ml2">ML 2</span></td>
+  <td class="desc-cell cat-improving-row">Recopilar y analizar datos de desempeño para gestionar el logro de los objetivos de negocio y proceso.</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-improving-row">Process Management</td>
+  <td class="pa-abbr cat-improving-row">PCM</td>
+  <td class="type-cell cat-improving-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-improving-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-improving-row">Planificar, implementar y controlar las actividades de mejora de procesos organizacionales.</td>
+</tr>
+
+<tr>
+  <td class="ca-cell cat-improving-row" rowspan="2">Sustaining Habit &amp; Persistence (SHP)</td>
+  <td class="pa-cell cat-improving-row">Process Asset Development</td>
+  <td class="pa-abbr cat-improving-row">PAD</td>
+  <td class="type-cell cat-improving-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-improving-row"><span class="ml-badge ml3">ML 3</span></td>
+  <td class="desc-cell cat-improving-row">Establecer y mantener los activos de proceso organizacionales (definiciones, guías, plantillas, métricas históricas).</td>
+</tr>
+<tr>
+  <td class="pa-cell cat-improving-row">Managing Performance &amp; Measurement</td>
+  <td class="pa-abbr cat-improving-row">MPM²</td>
+  <td class="type-cell cat-improving-row"><span class="core-badge">CORE</span></td>
+  <td class="ml-cell cat-improving-row"><span class="ml-badge ml4">ML 4</span></td>
+  <td class="desc-cell cat-improving-row">Usar técnicas estadísticas y cuantitativas para gestionar la variación en los subprocesos y predecir resultados futuros.</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="note">
+  <strong>Cómo leer esta tabla:</strong> La jerarquía es estrictamente inclusiva — una Categoría (CCA) contiene Áreas de Capacidad (CA), cada CA contiene Áreas de Práctica (PA), y dentro de cada PA las prácticas se agrupan en Niveles de Grupo de Práctica (PG Level 1 a 5). El <em>nivel de madurez mínimo</em> indica a partir de qué ML la PA aparece en el perfil predefinido de appraisal — no que no pueda implementarse antes. Las PAs marcadas <span class="core-badge">CORE</span> son obligatorias para cualquier organización independientemente del dominio; las <span class="domain-badge">DOMINIO</span> aplican según el tipo de trabajo (desarrollo, servicios, seguridad, etc.). Las tres filas con <span class="new-badge">NUEVO V3</span> fueron incorporadas en la release de abril 2023.
+</div>
+
+</body>
+</html>

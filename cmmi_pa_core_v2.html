@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CMMI V3.0 — PAs Core con ML mínimo y máximo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f4f4; color: #222; font-size: 13px; }
+h1 { background: #6B1F1F; color: white; padding: 14px 22px; font-size: 15px; }
+.subtitle { background: #8B2F2F; color: #f0d0d0; padding: 6px 22px; font-size: 11px; }
+.fuentes { background: #fff8e1; border-left: 4px solid #ffc107; padding: 8px 22px; font-size: 11px; color: #555; line-height: 1.8; }
+.fuentes strong { color: #6B1F1F; }
+.legend { display: flex; gap: 10px; padding: 8px 22px; background: #fff; border-bottom: 1px solid #ddd; flex-wrap: wrap; align-items: center; font-size: 11px; }
+.ml-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; color: white; }
+.ml2{background:#2196F3;} .ml3{background:#4CAF50;} .ml4{background:#FF9800;} .ml5{background:#9C27B0;}
+.new-v3{background:#E91E63;color:white;padding:1px 5px;border-radius:8px;font-size:9px;font-weight:700;}
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 980px; }
+thead tr { background: #3a1010; color: white; }
+thead th { padding: 7px 10px; text-align: center; font-size: 11px; font-weight: 600; border-right: 1px solid #5a2020; white-space: nowrap; }
+thead th.left { text-align: left; }
+.doing{background:#BBDEFB;} .managing{background:#C8E6C9;} .enabling{background:#E1BEE7;} .improving{background:#FFE0B2;}
+.doing-h{background:#1565C0;color:white;} .managing-h{background:#2E7D32;color:white;} .enabling-h{background:#6A1B9A;color:white;} .improving-h{background:#BF360C;color:white;}
+td { padding: 5px 8px; border-bottom: 1px solid #ddd; vertical-align: middle; }
+td.cat { font-weight:700; font-size:11px; text-align:center; writing-mode:vertical-rl; transform:rotate(180deg); min-width:26px; padding:6px 3px; }
+td.pa-name { font-weight:600; font-size:12px; }
+td.pa-abbr { font-family:monospace; font-weight:700; color:#6B1F1F; text-align:center; }
+td.intent { font-size:11px; color:#444; max-width:220px; line-height:1.4; }
+td.total { font-weight:700; text-align:center; font-size:13px; color:#333; }
+td.pg { text-align:center; font-size:12px; font-weight:600; min-width:36px; }
+td.pg.p1{color:#9E9E9E;} td.pg.p2{color:#1565C0;} td.pg.p3{color:#2E7D32;} td.pg.p4{color:#E65100;} td.pg.p5{color:#6A1B9A;}
+.bar-wrap{display:flex;gap:2px;align-items:center;height:14px;}
+.bar-seg{height:100%;border-radius:2px;}
+.b1{background:#BDBDBD;} .b2{background:#42A5F5;} .b3{background:#66BB6A;} .b4{background:#FFA726;} .b5{background:#AB47BC;}
+.totals-row td{background:#3a1010!important;color:white!important;font-weight:700;text-align:center;font-size:12px;border-top:2px solid #6B1F1F;}
+.totals-row td.left-align{text-align:left;}
+.note{padding:10px 22px;background:#e8f5e9;border-top:2px solid #4CAF50;font-size:11px;color:#555;line-height:1.7;}
+.note strong{color:#6B1F1F;}
+tr.cat-header td{font-weight:700;font-size:11px;padding:4px 10px;letter-spacing:0.5px;color:white;}
+/* ML range cell */
+td.ml-range { text-align:center; min-width:110px; }
+.ml-arrow { color: #999; font-size: 11px; margin: 0 3px; }
+/* highlight full-span PAs */
+.full-span td.ml-range { background: rgba(156,39,176,0.07); }
+</style>
+</head>
+<body>
+
+<h1>CMMI V3.0 (2023) — PAs Core: ML Mínimo, ML Máximo y Prácticas por PG Level</h1>
+<div class="subtitle">v2 · Columnas ML mínimo y ML máximo agregadas · 18 PAs Core · Fuentes verificadas</div>
+
+<div class="fuentes">
+  <strong>Fuentes:</strong>
+  [1] ISACA. (2024). <em>CMMI Model Quick Reference Guide V3.0</em>. Disponible en processgroup.com/CMMI-Model-Quick-Reference-Guide_Digital-1024.pdf — Conteos de prácticas por PG level para todas las PAs.<br>
+  [2] KPMG / Digital India Corporation. (2024). <em>CMMI V3.0 Orientation Session</em>. Documento público disponible en lbsnaa.gov.in — Prácticas individuales verificadas para 12 PAs Core.<br>
+  [3] Hadad, G.D.S. (2026). <em>Uni03_Calidad de Procesos_03_CMMI v2.pdf</em>. Material de cátedra UAI, Especialización en IA — Arquitectura general y ejemplos EST.<br>
+  <strong>Nota ML máximo:</strong> se deriva directamente de [1] — el ML máximo de cada PA equivale al PG level más alto que esa PA tiene definido en el modelo. Relación directa: ML máx = PG level máx. No es información separada sino una lectura de los mismos datos del Quick Reference Guide.
+</div>
+
+<div class="legend">
+  <strong>ML mínimo:</strong> nivel de madurez a partir del cual la PA aparece en el perfil predefinido de appraisal &nbsp;|&nbsp;
+  <strong>ML máximo:</strong> nivel de madurez más alto al que esa PA tiene prácticas definidas (= su PG level máximo) &nbsp;|&nbsp;
+  <span class="ml-badge ml2">ML 2</span> <span class="ml-badge ml3">ML 3</span> <span class="ml-badge ml4">ML 4</span> <span class="ml-badge ml5">ML 5</span> &nbsp;|&nbsp;
+  <span class="new-v3">NUEVO V3</span> = incorporado en V3.0 abril 2023
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+  <tr>
+    <th class="left" style="width:26px">Cat.</th>
+    <th class="left" style="width:170px">PA (Área de Práctica)</th>
+    <th style="width:40px">Sigla</th>
+    <th class="left" style="width:200px">Intención</th>
+    <th style="width:130px">ML mín → ML máx</th>
+    <th style="width:38px" title="PG Level 1">PG 1</th>
+    <th style="width:38px" title="PG Level 2">PG 2</th>
+    <th style="width:38px" title="PG Level 3">PG 3</th>
+    <th style="width:38px" title="PG Level 4">PG 4</th>
+    <th style="width:38px" title="PG Level 5">PG 5</th>
+    <th style="width:44px">Total</th>
+    <th style="min-width:120px">Distribución</th>
+  </tr>
+</thead>
+<tbody>
+
+<!-- DOING -->
+<tr class="cat-header doing-h"><td colspan="12">▶ DOING — Hacer el trabajo técnico</td></tr>
+
+<tr class="doing">
+  <td class="cat doing-h" rowspan="5">DOING</td>
+  <td class="pa-name">Requirements Dev. &amp; Management</td>
+  <td class="pa-abbr">RDM</td>
+  <td class="intent">Elicitar, analizar y gestionar requisitos del cliente y del sistema.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">5</td><td class="pg p3">7</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">13</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:8%"></div><div class="bar-seg b2" style="width:38%"></div><div class="bar-seg b3" style="width:54%"></div></div></td>
+</tr>
+<tr class="doing">
+  <td class="pa-name">Verification &amp; Validation</td>
+  <td class="pa-abbr">VV</td>
+  <td class="intent">Verificar que los productos cumplen sus requisitos; validar en entorno de usuario.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">3</td><td class="pg p3">2</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">7</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:29%"></div><div class="bar-seg b2" style="width:43%"></div><div class="bar-seg b3" style="width:29%"></div></div></td>
+</tr>
+<tr class="doing">
+  <td class="pa-name">Process Quality Assurance</td>
+  <td class="pa-abbr">PQA</td>
+  <td class="intent">Proveer visibilidad objetiva sobre procesos y productos de trabajo.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">4</td><td class="pg p3">1</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">6</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:17%"></div><div class="bar-seg b2" style="width:67%"></div><div class="bar-seg b3" style="width:17%"></div></div></td>
+</tr>
+<tr class="doing">
+  <td class="pa-name">Supplier Agreement Management</td>
+  <td class="pa-abbr">SAM</td>
+  <td class="intent">Gestionar adquisición de productos/servicios de proveedores mediante acuerdos formales.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">4</td><td class="pg p3">3</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">8</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:12%"></div><div class="bar-seg b2" style="width:50%"></div><div class="bar-seg b3" style="width:38%"></div></div></td>
+</tr>
+<tr class="doing">
+  <td class="pa-name">Peer Reviews</td>
+  <td class="pa-abbr">PR</td>
+  <td class="intent">Detectar defectos temprano mediante revisiones estructuradas entre pares.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">4</td><td class="pg p3">1</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">6</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:17%"></div><div class="bar-seg b2" style="width:67%"></div><div class="bar-seg b3" style="width:17%"></div></div></td>
+</tr>
+
+<!-- MANAGING -->
+<tr class="cat-header managing-h"><td colspan="12">▶ MANAGING — Gestionar el trabajo</td></tr>
+
+<tr class="managing">
+  <td class="cat managing-h" rowspan="8">MANAGING</td>
+  <td class="pa-name">Estimating</td>
+  <td class="pa-abbr">EST</td>
+  <td class="intent">Estimar tamaño, esfuerzo, duración y costo del trabajo.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">3</td><td class="pg p3">2</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">6</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:17%"></div><div class="bar-seg b2" style="width:50%"></div><div class="bar-seg b3" style="width:33%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Planning</td>
+  <td class="pa-abbr">PLAN</td>
+  <td class="intent">Establecer y mantener planes que definan cómo se realizará el trabajo.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">8</td><td class="pg p3">4</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">14</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:14%"></div><div class="bar-seg b2" style="width:57%"></div><div class="bar-seg b3" style="width:29%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Monitor &amp; Control</td>
+  <td class="pa-abbr">MC</td>
+  <td class="intent">Monitorear progreso; tomar acciones correctivas ante desvíos significativos.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">4</td><td class="pg p3">4</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">10</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:20%"></div><div class="bar-seg b2" style="width:40%"></div><div class="bar-seg b3" style="width:40%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Risk &amp; Opportunity Management</td>
+  <td class="pa-abbr">RSK</td>
+  <td class="intent">Identificar, analizar, gestionar riesgos y aprovechar oportunidades.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">2</td><td class="pg p3">5</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">8</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:12%"></div><div class="bar-seg b2" style="width:25%"></div><div class="bar-seg b3" style="width:62%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Decision Analysis &amp; Resolution</td>
+  <td class="pa-abbr">DAR</td>
+  <td class="intent">Tomar y registrar decisiones con proceso formal de evaluación de alternativas.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">5</td><td class="pg p3">1</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">8</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:25%"></div><div class="bar-seg b2" style="width:62%"></div><div class="bar-seg b3" style="width:12%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Configuration Management</td>
+  <td class="pa-abbr">CM</td>
+  <td class="intent">Gestionar integridad de productos con control de versiones, cambios y auditorías.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml2">ML 2</span></td>
+  <td class="pg p1">1</td><td class="pg p2">6</td><td class="pg">—</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">7</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:14%"></div><div class="bar-seg b2" style="width:86%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Organizational Training</td>
+  <td class="pa-abbr">OT</td>
+  <td class="intent">Desarrollar habilidades y conocimientos del personal para sus roles.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">2</td><td class="pg p3">6</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">9</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:11%"></div><div class="bar-seg b2" style="width:22%"></div><div class="bar-seg b3" style="width:67%"></div></div></td>
+</tr>
+<tr class="managing">
+  <td class="pa-name">Workforce Empowerment <span class="new-v3">V3</span></td>
+  <td class="pa-abbr">WE</td>
+  <td class="intent">Crear entorno donde el personal esté motivado y empoderado.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">2</td><td class="pg p3">4</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">7</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:14%"></div><div class="bar-seg b2" style="width:29%"></div><div class="bar-seg b3" style="width:57%"></div></div></td>
+</tr>
+
+<!-- ENABLING -->
+<tr class="cat-header enabling-h"><td colspan="12">▶ ENABLING — Habilitar la operación</td></tr>
+
+<tr class="enabling">
+  <td class="cat enabling-h" rowspan="5">ENABLING</td>
+  <td class="pa-name">Data Management <span class="new-v3">V3</span></td>
+  <td class="pa-abbr">DM</td>
+  <td class="intent">Gestionar datos como activo organizacional: arquitectura, ciclo de vida, gobierno.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">2</td><td class="pg p3">2</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">6</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:33%"></div><div class="bar-seg b2" style="width:33%"></div><div class="bar-seg b3" style="width:33%"></div></div></td>
+</tr>
+<tr class="enabling">
+  <td class="pa-name">Data Quality <span class="new-v3">V3</span></td>
+  <td class="pa-abbr">DQ</td>
+  <td class="intent">Asegurar que los datos sean precisos, completos y consistentes.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">2</td><td class="pg p2">3</td><td class="pg p3">2</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">7</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:29%"></div><div class="bar-seg b2" style="width:43%"></div><div class="bar-seg b3" style="width:29%"></div></div></td>
+</tr>
+<tr class="enabling">
+  <td class="pa-name">Governance</td>
+  <td class="pa-abbr">GOV</td>
+  <td class="intent">Guiar a la alta dirección en patrocinio y supervisión de mejora de procesos.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml4">ML 4</span></td>
+  <td class="pg p1">1</td><td class="pg p2">4</td><td class="pg p3">3</td><td class="pg p4">1</td><td class="pg">—</td>
+  <td class="total">9</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:11%"></div><div class="bar-seg b2" style="width:44%"></div><div class="bar-seg b3" style="width:33%"></div><div class="bar-seg b4" style="width:11%"></div></div></td>
+</tr>
+<tr class="enabling">
+  <td class="pa-name">Implementation Infrastructure</td>
+  <td class="pa-abbr">II</td>
+  <td class="intent">Asegurar que los procesos importantes se sigan, usen y mejoren habitualmente.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml4">ML 4</span></td>
+  <td class="pg p1">1</td><td class="pg p2">2</td><td class="pg p3">3</td><td class="pg p4">1</td><td class="pg">—</td>
+  <td class="total">7</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:14%"></div><div class="bar-seg b2" style="width:29%"></div><div class="bar-seg b3" style="width:43%"></div><div class="bar-seg b4" style="width:14%"></div></div></td>
+</tr>
+<tr class="enabling full-span">
+  <td class="pa-name">Causal Analysis &amp; Resolution</td>
+  <td class="pa-abbr">CAR</td>
+  <td class="intent">Identificar causas raíz; actuar para prevenir recurrencia o asegurar resultados positivos.</td>
+  <td class="ml-range"><span class="ml-badge ml5">ML 5</span> <span class="ml-arrow">→</span> <span class="ml-badge ml5">ML 5</span></td>
+  <td class="pg p1">1</td><td class="pg p2">2</td><td class="pg p3">5</td><td class="pg p4">2</td><td class="pg p5">1</td>
+  <td class="total">11</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:9%"></div><div class="bar-seg b2" style="width:18%"></div><div class="bar-seg b3" style="width:45%"></div><div class="bar-seg b4" style="width:18%"></div><div class="bar-seg b5" style="width:9%"></div></div></td>
+</tr>
+
+<!-- IMPROVING -->
+<tr class="cat-header improving-h"><td colspan="12">▶ IMPROVING — Mejorar continuamente</td></tr>
+
+<tr class="improving">
+  <td class="cat improving-h" rowspan="3">IMPROVING</td>
+  <td class="pa-name full-span">Managing Performance &amp; Measurement</td>
+  <td class="pa-abbr">MPM</td>
+  <td class="intent">Gestionar rendimiento usando medición y análisis para alcanzar objetivos de negocio.</td>
+  <td class="ml-range"><span class="ml-badge ml2">ML 2</span> <span class="ml-arrow">→</span> <span class="ml-badge ml5">ML 5</span></td>
+  <td class="pg p1">2</td><td class="pg p2">6</td><td class="pg p3">6</td><td class="pg p4">5</td><td class="pg p5">3</td>
+  <td class="total">22</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:9%"></div><div class="bar-seg b2" style="width:27%"></div><div class="bar-seg b3" style="width:27%"></div><div class="bar-seg b4" style="width:23%"></div><div class="bar-seg b5" style="width:14%"></div></div></td>
+</tr>
+<tr class="improving">
+  <td class="pa-name">Process Asset Development</td>
+  <td class="pa-abbr">PAD</td>
+  <td class="intent">Establecer y mantener activos de proceso organizacionales.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">1</td><td class="pg p2">3</td><td class="pg p3">6</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">10</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:10%"></div><div class="bar-seg b2" style="width:30%"></div><div class="bar-seg b3" style="width:60%"></div></div></td>
+</tr>
+<tr class="improving">
+  <td class="pa-name">Process Management</td>
+  <td class="pa-abbr">PCM</td>
+  <td class="intent">Gestionar la mejora continua de procesos para cumplir objetivos de negocio.</td>
+  <td class="ml-range"><span class="ml-badge ml3">ML 3</span> <span class="ml-arrow">→</span> <span class="ml-badge ml3">ML 3</span></td>
+  <td class="pg p1">3</td><td class="pg p2">2</td><td class="pg p3">6</td><td class="pg">—</td><td class="pg">—</td>
+  <td class="total">11</td>
+  <td><div class="bar-wrap"><div class="bar-seg b1" style="width:27%"></div><div class="bar-seg b2" style="width:18%"></div><div class="bar-seg b3" style="width:55%"></div></div></td>
+</tr>
+
+<!-- TOTALES -->
+<tr class="totals-row">
+  <td colspan="2" class="left-align">TOTAL — 18 PAs Core</td>
+  <td>—</td><td class="left-align">—</td><td>—</td>
+  <td>26</td><td>76</td><td>66</td><td>9</td><td>4</td>
+  <td>181</td>
+  <td><div class="bar-wrap" style="height:14px">
+    <div class="bar-seg b1" style="width:14%"></div>
+    <div class="bar-seg b2" style="width:42%"></div>
+    <div class="bar-seg b3" style="width:36%"></div>
+    <div class="bar-seg b4" style="width:5%"></div>
+    <div class="bar-seg b5" style="width:2%"></div>
+  </div></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<div class="note">
+  <strong>Cómo leer ML mínimo → ML máximo:</strong><br>
+  · <strong>ML mín = ML máx</strong> (ej. VV: ML3→ML3): la PA entra al appraisal en ML3 y su techo también es ML3. No aporta prácticas nuevas en ML4 o ML5 — se mantiene operando al PG3 que ya tiene.<br>
+  · <strong>ML mín &lt; ML máx</strong> (ej. MPM: ML2→ML5): la PA entra en ML2 con prácticas básicas y sigue creciendo hasta ML5, aportando prácticas adicionales en cada nivel superior.<br>
+  · <strong>CM: ML2→ML2</strong> — caso especial: única PA Core con techo en PG2. Para ML3 en adelante se evalúa igual pero no agrega prácticas nuevas.<br>
+  · <strong>CAR: ML5→ML5</strong> — entra y llega hasta ML5. Se implementa antes, pero el appraisal formal solo la evalúa en el nivel más alto.<br>
+  · Las PAs que aportan prácticas en ML4/ML5 son únicamente: <strong>MPM, CAR, GOV e II</strong>.
+</div>
+
+</body>
+</html>
